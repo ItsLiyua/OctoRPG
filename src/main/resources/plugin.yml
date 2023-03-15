@@ -1,0 +1,10 @@
+main: me.trqhxrd.octorpg.Main
+version: ${project.version}
+
+api-version: 1.19
+libraries:
+  - org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0
+
+name: OctoRPG
+author: Trqhxrd
+website: https://github.com/Trqhxrd/OctoRPG
