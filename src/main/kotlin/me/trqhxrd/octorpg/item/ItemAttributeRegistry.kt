@@ -1,6 +1,6 @@
 package me.trqhxrd.octorpg.item
 
-import me.trqhxrd.octorpg.OctoRPG
+import me.trqhxrd.octorpg.api.OctoRPG
 import me.trqhxrd.octorpg.api.registry.Registry
 import me.trqhxrd.octorpg.item.attribute.Named
 import org.bukkit.NamespacedKey

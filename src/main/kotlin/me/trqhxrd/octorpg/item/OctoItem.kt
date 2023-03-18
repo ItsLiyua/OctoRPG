@@ -2,15 +2,16 @@ package me.trqhxrd.octorpg.item
 
 import de.tr7zw.nbtapi.NBT
 import de.tr7zw.nbtapi.iface.ReadWriteNBT
-import me.trqhxrd.octorpg.OctoRPG
+import me.trqhxrd.octorpg.api.OctoRPG
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Material) {
+open class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Material) {
     private val attributes = mutableSetOf<ItemAttribute>()
 
-    constructor(octoRPG: OctoRPG, raw: ItemStack) : this(octoRPG, extractKey(raw), raw.type) {
+    @Suppress("LeakingThis")
+    constructor(octoRPG: OctoRPG, raw: ItemStack) : this(octoRPG, OctoItem.extractKey(raw), raw.type) {
         val attrList = NBT.get(raw) { it.getCompound("octo").getStringList("attributes").toList() }
         attrList.map { NamespacedKey.fromString(it)!! }
             .mapNotNull { this.octoRPG.attributeRegistry.instantiateOrNull(it) }
@@ -41,20 +42,27 @@ class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Material) 
         return true
     }
 
+    fun removeAttribute(key: NamespacedKey) = this.attributes.removeIf { it.id == key }
+
     fun getAttribute(id: NamespacedKey) =
         this.getAttributeOrNull(id) ?: throw NullPointerException("The item with the ID")
 
     fun getAttributeOrNull(id: NamespacedKey) = this.attributes.firstOrNull { it.id == id }
 
+    // No unit test because the of NBT modifications taking place when this is called.
     fun build(): ItemStack {
         val item = ItemStack(this.type)
         this.attributes.forEach { it.apply(item) }
-        NBT.modify(item) { (it.getOrCreateCompound("octo") as ReadWriteNBT).setString("id", this.id.toString()) }
         NBT.modify(item) { this.attributes.forEach { a -> a.write(it) } }
         NBT.modify(item) {
             (it.getOrCreateCompound("octo") as ReadWriteNBT).getStringList("attributes")
                 .addAll(this.attributes.map { attr -> attr.id.toString() })
         }
+        NBT.modify(item) { (it.getOrCreateCompound("octo") as ReadWriteNBT).setString("id", this.id.toString()) }
         return item
+    }
+
+    override fun toString(): String {
+        return "OctoItem(octoRPG=$octoRPG, id=$id, type=$type, attributes=$attributes)"
     }
 }

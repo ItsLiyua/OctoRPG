@@ -1,4 +1,4 @@
-package me.trqhxrd.octorpg
+package me.trqhxrd.octorpg.api
 
 class InitSettings {
     var registerDefaultAttributes = true

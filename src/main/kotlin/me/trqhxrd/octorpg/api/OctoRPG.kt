@@ -1,4 +1,4 @@
-package me.trqhxrd.octorpg
+package me.trqhxrd.octorpg.api
 
 import me.trqhxrd.octorpg.item.ItemAttributeRegistry
 import org.bukkit.NamespacedKey
