@@ -17,7 +17,4 @@ class ItemAttributeRegistry(val octoRPG: OctoRPG, val registerDefaults: Boolean 
     fun instantiate(key: NamespacedKey) = this.get(key).build()
 
     fun instantiateOrNull(key: NamespacedKey) = this.getOrNull(key)?.build()
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T> instantiateAs(key: NamespacedKey, clazz: Class<T>) = this.instantiate(key) as T
 }

@@ -7,11 +7,11 @@ import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-open class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Material) {
+open class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Material, var amount: Int = 1) {
     private val attributes = mutableSetOf<ItemAttribute>()
 
     @Suppress("LeakingThis")
-    constructor(octoRPG: OctoRPG, raw: ItemStack) : this(octoRPG, OctoItem.extractKey(raw), raw.type) {
+    constructor(octoRPG: OctoRPG, raw: ItemStack) : this(octoRPG, OctoItem.extractKey(raw), raw.type, raw.amount) {
         val attrList = NBT.get(raw) { it.getCompound("octo").getStringList("attributes").toList() }
         attrList.map { NamespacedKey.fromString(it)!! }
             .mapNotNull { this.octoRPG.attributeRegistry.instantiateOrNull(it) }
@@ -51,7 +51,7 @@ open class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Mater
 
     // No unit test because the of NBT modifications taking place when this is called.
     fun build(): ItemStack {
-        val item = ItemStack(this.type)
+        val item = ItemStack(this.type, this.amount)
         this.attributes.forEach { it.apply(item) }
         NBT.modify(item) { this.attributes.forEach { a -> a.write(it) } }
         NBT.modify(item) {
@@ -63,6 +63,6 @@ open class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Mater
     }
 
     override fun toString(): String {
-        return "OctoItem(octoRPG=$octoRPG, id=$id, type=$type, attributes=$attributes)"
+        return "OctoItem(octoRPG=$octoRPG, id=$id, type=$type, amount=$amount, attributes=$attributes)"
     }
 }

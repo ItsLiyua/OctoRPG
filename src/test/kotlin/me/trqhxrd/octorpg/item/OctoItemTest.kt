@@ -1,12 +1,9 @@
 package me.trqhxrd.octorpg.item
 
 import BaseTest
-import de.tr7zw.nbtapi.NBT
-import de.tr7zw.nbtapi.iface.ReadWriteNBT
-import me.trqhxrd.octorpg.api.OctoRPG
 import me.trqhxrd.octorpg.item.attribute.Named
+import mocks.MockAttribute
 import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.*
@@ -64,17 +61,5 @@ class OctoItemTest : BaseTest() {
         val item = genItem()
         assertNotNull(item.getAttributeOrNull(Named(this.plugin.instance).id))
         assertNull(item.getAttributeOrNull(MockAttribute(this.plugin.instance).id))
-    }
-
-    private class MockAttribute(override val octoRPG: OctoRPG) : ItemAttribute {
-        override val id = this.octoRPG.newKey("mock")
-        override fun write(nbt: ReadWriteNBT) {
-        }
-
-        override fun read(nbt: ReadWriteNBT) {
-        }
-
-        override fun apply(raw: ItemStack) {
-        }
     }
 }
