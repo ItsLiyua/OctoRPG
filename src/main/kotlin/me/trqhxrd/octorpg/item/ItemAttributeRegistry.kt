@@ -2,6 +2,7 @@ package me.trqhxrd.octorpg.item
 
 import me.trqhxrd.octorpg.api.OctoRPG
 import me.trqhxrd.octorpg.api.registry.Registry
+import me.trqhxrd.octorpg.item.attribute.Durability
 import me.trqhxrd.octorpg.item.attribute.Lore
 import me.trqhxrd.octorpg.item.attribute.Named
 import org.bukkit.NamespacedKey
@@ -13,6 +14,7 @@ class ItemAttributeRegistry(val octoRPG: OctoRPG, val registerDefaults: Boolean 
         if (this.registerDefaults) {
             this.add(Named.Builder(this.octoRPG))
             this.add(Lore.Builder(this.octoRPG))
+            this.add(Durability.Builder(this.octoRPG))
         }
     }
 

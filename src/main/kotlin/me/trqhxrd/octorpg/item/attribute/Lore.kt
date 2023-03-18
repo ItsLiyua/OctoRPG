@@ -5,7 +5,7 @@ import me.trqhxrd.octorpg.api.OctoRPG
 import me.trqhxrd.octorpg.item.ItemAttribute
 import org.bukkit.inventory.ItemStack
 
-class Lore(override val octoRPG: OctoRPG, val lore: MutableList<String>) : ItemAttribute {
+class Lore(override val octoRPG: OctoRPG, val lore: MutableList<String> = mutableListOf()) : ItemAttribute {
     override val id = this.octoRPG.newKey("lore")
     override fun write(nbt: ReadWriteNBT) {
         val list = ((nbt.getOrCreateCompound("octo") as ReadWriteNBT)
@@ -21,14 +21,15 @@ class Lore(override val octoRPG: OctoRPG, val lore: MutableList<String>) : ItemA
 
     override fun apply(raw: ItemStack) {
         val meta = raw.itemMeta
-        meta!!.lore = this.lore
+        val lore = meta!!.lore ?: mutableListOf()
+        lore.add("§c")
+        lore.addAll(this.lore)
+        meta.lore = lore
         raw.itemMeta = meta
     }
 
     class Builder(override val octoRPG: OctoRPG) : ItemAttribute.AttributeBuilder<Lore> {
-        override val id = this.octoRPG.newKey("lore")
-        override fun build(): Lore {
-            TODO("Not yet implemented")
-        }
+        override val id = this.build().id
+        override fun build() = Lore(this.octoRPG)
     }
 }

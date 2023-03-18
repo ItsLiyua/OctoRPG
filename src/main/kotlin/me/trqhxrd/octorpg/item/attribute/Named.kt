@@ -25,9 +25,7 @@ class Named(override val octoRPG: OctoRPG, var name: String = "Unnamed item") : 
     }
 
     class Builder(override val octoRPG: OctoRPG) : ItemAttribute.AttributeBuilder<Named> {
-
-        override val id = this.octoRPG.newKey("named")
-
+        override val id = this.build().id
         override fun build() = Named(this.octoRPG)
     }
 }
