@@ -10,6 +10,7 @@ interface ItemAttribute {
 
     val octoRPG: OctoRPG
     val id: NamespacedKey
+    val priority: Int
 
     fun write(nbt: ReadWriteNBT)
 

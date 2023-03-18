@@ -13,9 +13,9 @@ class Durability(
     var durability: Int = 100,
     var maxDurability: Int = 100,
     var formatting: Map<Double, String> = mapOf(0.2 to "§a§l", 0.05 to "§e§l", 0.00 to "§c§l")
-) :
-    ItemAttribute {
+) : ItemAttribute {
     override val id = this.octoRPG.newKey("durability")
+    override val priority = 0
 
     override fun write(nbt: ReadWriteNBT) {
         val compound = ((nbt.getOrCreateCompound("octo") as ReadWriteNBT)

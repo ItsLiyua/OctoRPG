@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack
 
 class Lore(override val octoRPG: OctoRPG, val lore: MutableList<String> = mutableListOf()) : ItemAttribute {
     override val id = this.octoRPG.newKey("lore")
+    override val priority = 10
+
     override fun write(nbt: ReadWriteNBT) {
         val list = ((nbt.getOrCreateCompound("octo") as ReadWriteNBT)
             .getOrCreateCompound("defaults") as ReadWriteNBT).getStringList("lore")

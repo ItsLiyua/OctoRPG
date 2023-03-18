@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack
 
 class MockAttribute(override val octoRPG: OctoRPG) : ItemAttribute {
     override val id = this.octoRPG.newKey("mock")
+    override val priority = 0
     override fun write(nbt: ReadWriteNBT) {
     }
 

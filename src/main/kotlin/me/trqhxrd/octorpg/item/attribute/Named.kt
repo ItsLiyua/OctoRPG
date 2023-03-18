@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack
 class Named(override val octoRPG: OctoRPG, var name: String = "Unnamed item") : ItemAttribute {
 
     override val id = this.octoRPG.newKey("named")
+    override val priority = 0
 
     override fun write(nbt: ReadWriteNBT) {
         ((nbt.getOrCreateCompound("octo") as ReadWriteNBT).getOrCreateCompound("defaults") as ReadWriteNBT)

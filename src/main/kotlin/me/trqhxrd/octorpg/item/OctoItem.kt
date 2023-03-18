@@ -52,7 +52,7 @@ open class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Mater
     // No unit test because the of NBT modifications taking place when this is called.
     fun build(): ItemStack {
         val item = ItemStack(this.type, this.amount)
-        this.attributes.forEach { it.apply(item) }
+        this.attributes.sortedByDescending { it.priority }.forEach { it.apply(item) }
         NBT.modify(item) { this.attributes.forEach { a -> a.write(it) } }
         NBT.modify(item) {
             (it.getOrCreateCompound("octo") as ReadWriteNBT).getStringList("attributes")
