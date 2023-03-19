@@ -1,6 +1,7 @@
 package me.trqhxrd.octorpg.item
 
 import BaseTest
+import me.trqhxrd.octorpg.api.OctoRPG
 import me.trqhxrd.octorpg.item.attribute.Named
 import mocks.MockAttribute
 import org.bukkit.Material
@@ -11,7 +12,11 @@ import kotlin.test.*
 class OctoItemTest : BaseTest() {
 
     fun genItem(): OctoItem {
-        val item = OctoItem(this.plugin.instance, this.plugin.instance.newKey("debug"), Material.DIAMOND)
+        val item = object : me.trqhxrd.octorpg.item.material.Material("debug", Material.DIAMOND) {
+            override fun create(octoRPG: OctoRPG): OctoItem {
+                return OctoItem(octoRPG, this)
+            }
+        }.create(this.plugin.instance)
         item.addAttribute(Named(this.plugin.instance, "debug-name"))
         return item
     }

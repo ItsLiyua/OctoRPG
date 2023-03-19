@@ -3,15 +3,15 @@ package me.trqhxrd.octorpg.item
 import de.tr7zw.nbtapi.NBT
 import de.tr7zw.nbtapi.iface.ReadWriteNBT
 import me.trqhxrd.octorpg.api.OctoRPG
-import org.bukkit.Material
+import me.trqhxrd.octorpg.item.material.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
-open class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Material, var amount: Int = 1) {
+open class OctoItem(val octoRPG: OctoRPG, val type: Material, var amount: Int = 1) {
     private val attributes = mutableSetOf<ItemAttribute>()
 
     @Suppress("LeakingThis")
-    constructor(octoRPG: OctoRPG, raw: ItemStack) : this(octoRPG, OctoItem.extractKey(raw), raw.type, raw.amount) {
+    constructor(octoRPG: OctoRPG, raw: ItemStack) : this(octoRPG, octoRPG.itemRegistry.get(extractKey(raw))) {
         val attrList = NBT.get(raw) { it.getCompound("octo").getStringList("attributes").toList() }
         attrList.map { NamespacedKey.fromString(it)!! }
             .mapNotNull { this.octoRPG.attributeRegistry.instantiateOrNull(it) }
@@ -20,12 +20,11 @@ open class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Mater
     }
 
     companion object {
-        private fun extractKey(raw: ItemStack): NamespacedKey {
+        private fun extractKey(raw: ItemStack): String {
             return NBT.get(raw) {
                 val c = it.getCompound("octo")
                 if (!c.hasTag("id")) throw NullPointerException("An item you're trying to convert to an octo item does not have an id.")
-                val s = c.getString("id")
-                return@get NamespacedKey.fromString(s) ?: throw IllegalArgumentException("Could not parse $s to an id.")
+                c.getString("id")!!
             }
         }
     }
@@ -51,18 +50,21 @@ open class OctoItem(val octoRPG: OctoRPG, val id: NamespacedKey, val type: Mater
 
     // No unit test because the of NBT modifications taking place when this is called.
     fun build(): ItemStack {
-        val item = ItemStack(this.type, this.amount)
+        val item = ItemStack(this.type.material, this.amount)
         this.attributes.sortedByDescending { it.priority }.forEach { it.apply(item) }
         NBT.modify(item) { this.attributes.forEach { a -> a.write(it) } }
         NBT.modify(item) {
             (it.getOrCreateCompound("octo") as ReadWriteNBT).getStringList("attributes")
                 .addAll(this.attributes.map { attr -> attr.id.toString() })
         }
-        NBT.modify(item) { (it.getOrCreateCompound("octo") as ReadWriteNBT).setString("id", this.id.toString()) }
+        NBT.modify(item) {
+            (it.getOrCreateCompound("octo") as ReadWriteNBT)
+                .setString("id", this.octoRPG.newKey(this.type.id).toString())
+        }
         return item
     }
 
     override fun toString(): String {
-        return "OctoItem(octoRPG=$octoRPG, id=$id, type=$type, amount=$amount, attributes=$attributes)"
+        return "OctoItem(octoRPG=$octoRPG, type=$type, amount=$amount, attributes=$attributes)"
     }
 }
