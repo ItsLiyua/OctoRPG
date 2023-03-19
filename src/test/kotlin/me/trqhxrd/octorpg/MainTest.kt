@@ -11,5 +11,6 @@ class MainTest : BaseTest() {
     fun onEnable() {
         assertNotNull(this.server)
         assertEquals(this.server.pluginManager.getPlugin("OctoRPG"), this.plugin)
+        assertNotNull(this.plugin.instance)
     }
 }
