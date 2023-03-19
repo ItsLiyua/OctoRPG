@@ -12,6 +12,6 @@ class DiamondOfFriendship(octoRPG: OctoRPG) :
     init {
         this.addAttribute(Named(this.octoRPG, "§bDiamond of Friendship"))
         this.addAttribute(Lore(this.octoRPG, mutableListOf("Line1", "§bLine 2")))
-        this.addAttribute(Durability(this.octoRPG, 10, 500))
+        this.addAttribute(Durability(this.octoRPG, 10, 500, true))
     }
 }

@@ -12,6 +12,7 @@ class Durability(
     override val octoRPG: OctoRPG,
     var durability: Int = 100,
     var maxDurability: Int = 100,
+    var unbreakable: Boolean = false,
     var formatting: Map<Double, String> = mapOf(0.2 to "§a§l", 0.05 to "§e§l", 0.00 to "§c§l")
 ) : ItemAttribute {
     override val id = this.octoRPG.newKey("durability")
@@ -24,6 +25,7 @@ class Durability(
 
         compound.setInteger("current", this.durability)
         compound.setInteger("max", this.maxDurability)
+        compound.setBoolean("unbreakable", this.unbreakable)
         compound.setString("format", Gson().toJson(this.formatting))
     }
 
@@ -34,6 +36,7 @@ class Durability(
 
         this.durability = compound.getInteger("durability")
         this.maxDurability = compound.getInteger("maxDurability")
+        this.unbreakable = compound.getBoolean("unbreakable")
         this.formatting = Gson().fromJson(
             compound.getString("format"),
             TypeToken.of(HashMap<Double, String>()::class.java).type
@@ -41,21 +44,27 @@ class Durability(
     }
 
     override fun apply(raw: ItemStack) {
-        val left = this.durability.toDouble() / this.maxDurability.toDouble()
-        var color = ""
-        for (c in this.formatting.toSortedMap()) {
-            if (c.key <= left) color = c.value
-            else break
-        }
-
         val meta = raw.itemMeta!!
         val lore = meta.lore ?: mutableListOf()
         lore.add("§c")
-        lore.add("$color$durability / $maxDurability Durability")
+
+        if (this.unbreakable) {
+            val color = this.formatting[this.formatting.toSortedMap().lastKey()]!!
+            lore.add("${color}UNBREAKABLE")
+        } else {
+
+            val left = this.durability.toDouble() / this.maxDurability.toDouble()
+            var color = ""
+            for (c in this.formatting.toSortedMap()) {
+                if (c.key <= left) color = c.value
+                else break
+            }
+
+            lore.add("$color$durability / $maxDurability Durability")
+            if (meta is Damageable) meta.damage = (raw.type.maxDurability - raw.type.maxDurability * left).toInt()
+        }
+
         meta.lore = lore
-
-        if (meta is Damageable) meta.damage = (raw.type.maxDurability - raw.type.maxDurability * left).toInt()
-
         raw.itemMeta = meta
     }
 
