@@ -2,7 +2,7 @@ package mocks
 
 import de.tr7zw.nbtapi.iface.ReadWriteNBT
 import me.trqhxrd.octorpg.api.OctoRPG
-import me.trqhxrd.octorpg.item.ItemAttribute
+import me.trqhxrd.octorpg.item.attribute.ItemAttribute
 import org.bukkit.inventory.ItemStack
 
 class MockAttribute(override val octoRPG: OctoRPG) : ItemAttribute {

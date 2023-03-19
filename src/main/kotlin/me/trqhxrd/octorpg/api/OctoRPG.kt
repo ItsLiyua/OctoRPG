@@ -1,6 +1,6 @@
 package me.trqhxrd.octorpg.api
 
-import me.trqhxrd.octorpg.item.ItemAttributeRegistry
+import me.trqhxrd.octorpg.item.attribute.ItemAttributeRegistry
 import me.trqhxrd.octorpg.item.material.MaterialRegistry
 import org.bukkit.NamespacedKey
 import org.bukkit.plugin.java.JavaPlugin

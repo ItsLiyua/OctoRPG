@@ -2,7 +2,7 @@ package me.trqhxrd.octorpg.item
 
 import BaseTest
 import me.trqhxrd.octorpg.api.OctoRPG
-import me.trqhxrd.octorpg.item.attribute.Named
+import me.trqhxrd.octorpg.item.attribute.base.Named
 import mocks.MockAttribute
 import org.bukkit.Material
 import org.junit.jupiter.api.Test

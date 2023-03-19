@@ -1,4 +1,4 @@
-package me.trqhxrd.octorpg.item
+package me.trqhxrd.octorpg.item.attribute
 
 import de.tr7zw.nbtapi.iface.ReadWriteNBT
 import me.trqhxrd.octorpg.api.OctoRPG

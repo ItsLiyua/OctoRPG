@@ -3,6 +3,7 @@ package me.trqhxrd.octorpg.item
 import de.tr7zw.nbtapi.NBT
 import de.tr7zw.nbtapi.iface.ReadWriteNBT
 import me.trqhxrd.octorpg.api.OctoRPG
+import me.trqhxrd.octorpg.item.attribute.ItemAttribute
 import me.trqhxrd.octorpg.item.material.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack

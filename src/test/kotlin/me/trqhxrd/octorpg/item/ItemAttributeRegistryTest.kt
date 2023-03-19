@@ -1,7 +1,7 @@
 package me.trqhxrd.octorpg.item
 
 import BaseTest
-import me.trqhxrd.octorpg.item.attribute.Named
+import me.trqhxrd.octorpg.item.attribute.base.Named
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

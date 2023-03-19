@@ -1,10 +1,10 @@
-package me.trqhxrd.octorpg.item
+package me.trqhxrd.octorpg.item.attribute
 
 import me.trqhxrd.octorpg.api.OctoRPG
 import me.trqhxrd.octorpg.api.registry.Registry
-import me.trqhxrd.octorpg.item.attribute.Durability
-import me.trqhxrd.octorpg.item.attribute.Lore
-import me.trqhxrd.octorpg.item.attribute.Named
+import me.trqhxrd.octorpg.item.attribute.base.Durability
+import me.trqhxrd.octorpg.item.attribute.base.Lore
+import me.trqhxrd.octorpg.item.attribute.base.Named
 import org.bukkit.NamespacedKey
 
 class ItemAttributeRegistry(val octoRPG: OctoRPG, registerDefaults: Boolean = true) :

@@ -1,8 +1,8 @@
-package me.trqhxrd.octorpg.item.attribute
+package me.trqhxrd.octorpg.item.attribute.base
 
 import de.tr7zw.nbtapi.iface.ReadWriteNBT
 import me.trqhxrd.octorpg.api.OctoRPG
-import me.trqhxrd.octorpg.item.ItemAttribute
+import me.trqhxrd.octorpg.item.attribute.ItemAttribute
 import org.bukkit.inventory.ItemStack
 
 class Named(override val octoRPG: OctoRPG, var name: String = "Unnamed item") : ItemAttribute {
